@@ -107,7 +107,9 @@ func (hcReconciler *HardwareClassificationReconciler) Reconcile(req ctrl.Request
 		)
 		matchCount++
 	}
-
+	if bmhHostList.Items == nil {
+		return ctrl.Result{}, errors.Wrap(err, "no baremetalhost found")
+	}
 	// Wait to delete the hardwareClassification resource until no
 	// hosts are labeled as matching its rules.
 	if !hardwareClassification.DeletionTimestamp.IsZero() {
